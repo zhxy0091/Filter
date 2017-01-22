@@ -14,6 +14,7 @@
 		47D1BAE11E2C1AA40053D12B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47D1BADF1E2C1AA40053D12B /* LaunchScreen.storyboard */; };
 		47D1BAEC1E2C1AA50053D12B /* FiltererTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D1BAEB1E2C1AA50053D12B /* FiltererTests.swift */; };
 		47D1BAF71E2C1AA50053D12B /* FiltererUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D1BAF61E2C1AA50053D12B /* FiltererUITests.swift */; };
+		47D1BB051E2C1C0A0053D12B /* RGBAImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D1BB041E2C1C0A0053D12B /* RGBAImage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		47D1BAF21E2C1AA50053D12B /* FiltererUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FiltererUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		47D1BAF61E2C1AA50053D12B /* FiltererUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltererUITests.swift; sourceTree = "<group>"; };
 		47D1BAF81E2C1AA50053D12B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		47D1BB041E2C1C0A0053D12B /* RGBAImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGBAImage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 			children = (
 				47D1BAD61E2C1AA40053D12B /* AppDelegate.swift */,
 				47D1BAD81E2C1AA40053D12B /* ViewController.swift */,
+				47D1BB041E2C1C0A0053D12B /* RGBAImage.swift */,
 				47D1BADA1E2C1AA40053D12B /* Main.storyboard */,
 				47D1BADD1E2C1AA40053D12B /* Assets.xcassets */,
 				47D1BADF1E2C1AA40053D12B /* LaunchScreen.storyboard */,
@@ -260,6 +263,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				47D1BAD91E2C1AA40053D12B /* ViewController.swift in Sources */,
+				47D1BB051E2C1C0A0053D12B /* RGBAImage.swift in Sources */,
 				47D1BAD71E2C1AA40053D12B /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -405,6 +409,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Filterer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cyrus.Filterer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -416,6 +421,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Filterer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cyrus.Filterer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -487,6 +493,7 @@
 				47D1BAFD1E2C1AA50053D12B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		47D1BAFE1E2C1AA50053D12B /* Build configuration list for PBXNativeTarget "FiltererTests" */ = {
 			isa = XCConfigurationList;
@@ -495,6 +502,7 @@
 				47D1BB001E2C1AA50053D12B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		47D1BB011E2C1AA50053D12B /* Build configuration list for PBXNativeTarget "FiltererUITests" */ = {
 			isa = XCConfigurationList;
@@ -503,6 +511,7 @@
 				47D1BB031E2C1AA50053D12B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
