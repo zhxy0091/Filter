@@ -11,17 +11,21 @@ import UIKit
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
   
   var filteredImage:UIImage?
+  var originalImage:UIImage?
+  var prevSelectedFilter:UIButton?
+  var isFiltered:Bool = false
   @IBOutlet var imageView: UIImageView!
   
   @IBOutlet var secondaryMenu: UIView!
 
   @IBOutlet var bottomMenu: UIView!
-  
  
+  @IBOutlet weak var compareBtn: UIButton!
+  
   @IBOutlet var filterButton: UIButton!
   override func viewDidLoad() {
     super.viewDidLoad()
-    
+    originalImage = imageView.image
     
   }
 
@@ -63,6 +67,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     dismissViewControllerAnimated(true, completion: nil)
     if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
       imageView.image = image
+      originalImage = image
     }
   }
   
@@ -72,8 +77,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
   @IBAction func onFilter(sender: UIButton) {
     if(sender.selected) {
       hideSecondaryMenu()
-      sender.selected =
-      false
+      sender.selected = false
     }
     else {
       showSecondaryMenu()
@@ -81,6 +85,47 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
   }
   
+  @IBAction func onRedFilter(sender: UIButton) {
+    if(sender.selected) {
+      sender.selected = false
+      isFiltered = false
+      compareBtn.enabled = false
+      imageView.image = originalImage
+    }
+    else {
+      if(isFiltered) {
+        prevSelectedFilter!.selected = false;
+      }
+      prevSelectedFilter = sender
+      sender.selected = true
+      isFiltered = true
+      compareBtn.enabled = true
+      redFilter()
+      
+    }
+    
+    
+  }
+  
+  @IBAction func onGreenFilter(sender: UIButton) {
+    if(sender.selected) {
+      sender.selected = false
+      isFiltered = false
+      compareBtn.enabled = false
+      imageView.image = originalImage
+    }
+    else {
+      if(isFiltered) {
+        prevSelectedFilter!.selected = false;
+      }
+      prevSelectedFilter = sender
+      sender.selected = true
+      isFiltered = true
+      compareBtn.enabled = true
+      redFilter()
+      
+    }
+  }
   func showSecondaryMenu() {
     view.addSubview(secondaryMenu)
     secondaryMenu.translatesAutoresizingMaskIntoConstraints = false
@@ -104,6 +149,40 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         self.secondaryMenu.removeFromSuperview()
       }
     }
+  }
+  
+  
+  @IBAction func onCompare(sender: UIButton) {
+    if(sender.selected) {
+      sender.selected = false
+      imageView.image = filteredImage
+    }
+    else {
+      sender.selected = true
+      imageView.image = originalImage
+    }
+  }
+  
+  func redFilter() {
+    
+    var rgbaImage = RGBAImage(image: originalImage!)!
+    let avgRed = 107
+    for y in 0..<rgbaImage.height {
+      for x in 0..<rgbaImage.width {
+        let index = y*rgbaImage.width + x
+        var pixel = rgbaImage.pixels[index]
+        let redDelta = Int(pixel.red) - avgRed
+        var modifier = 1 + 4*(Double(y)/Double(rgbaImage.height))
+        if(Int(pixel.red) < avgRed) {
+          modifier = 1
+        }
+        pixel.red = UInt8(max(min(255,Int(round(Double(avgRed) + modifier * Double(redDelta)))), 0))
+        rgbaImage.pixels[index] = pixel
+      }
+    }
+    
+    filteredImage = rgbaImage.toUIImage()
+    imageView.image = filteredImage
   }
 }
 

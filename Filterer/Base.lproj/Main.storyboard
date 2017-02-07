@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -74,6 +74,9 @@
                                                         <exclude reference="dTI-WN-eYc"/>
                                                     </mask>
                                                 </variation>
+                                                <connections>
+                                                    <action selector="onCompare:" destination="BYZ-38-t0r" eventType="touchUpInside" id="oI1-q3-cAG"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ydz-X1-zVc">
                                                 <rect key="frame" x="450" y="0.0" width="150" height="44"/>
@@ -193,6 +196,7 @@
                     </view>
                     <connections>
                         <outlet property="bottomMenu" destination="wnS-1V-xmH" id="M6d-Oj-ufB"/>
+                        <outlet property="compareBtn" destination="R1O-DX-BxG" id="mLt-4c-kUG"/>
                         <outlet property="imageView" destination="q5S-mg-tF0" id="OvH-FZ-Hn6"/>
                         <outlet property="secondaryMenu" destination="Q15-qE-GPB" id="STf-bl-NlM"/>
                     </connections>
@@ -205,23 +209,29 @@
                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="w6S-ln-aSA">
                             <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8hD-0a-a0S">
+                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hCo-yB-Rh7">
                                     <rect key="frame" x="0.0" y="0.0" width="48" height="128"/>
                                     <state key="normal" title="Red"/>
+                                    <connections>
+                                        <action selector="onRedFilter:" destination="BYZ-38-t0r" eventType="touchUpInside" id="PC2-lX-Rap"/>
+                                    </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="knL-3U-iKL">
+                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="knL-3U-iKL">
                                     <rect key="frame" x="48" y="0.0" width="48" height="128"/>
                                     <state key="normal" title="Green"/>
+                                    <connections>
+                                        <action selector="onGreenFilter:" destination="BYZ-38-t0r" eventType="touchUpInside" id="S2B-Zw-lmX"/>
+                                    </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C6y-RN-ylH">
+                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C6y-RN-ylH">
                                     <rect key="frame" x="96" y="0.0" width="48" height="128"/>
                                     <state key="normal" title="Blue"/>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GGZ-3S-CIc">
+                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GGZ-3S-CIc">
                                     <rect key="frame" x="144" y="0.0" width="48" height="128"/>
                                     <state key="normal" title="Yellow"/>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FpM-5p-lrT">
+                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FpM-5p-lrT">
                                     <rect key="frame" x="192" y="0.0" width="48" height="128"/>
                                     <state key="normal" title="Purple"/>
                                 </button>
