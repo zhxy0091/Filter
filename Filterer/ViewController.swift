@@ -14,6 +14,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
   var originalImage:UIImage?
   var prevSelectedFilter:UIButton?
   var isFiltered:Bool = false
+  var label = UILabel()
   @IBOutlet var imageView: UIImageView!
   
   @IBOutlet var secondaryMenu: UIView!
@@ -26,12 +27,20 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
   override func viewDidLoad() {
     super.viewDidLoad()
     originalImage = imageView.image
+    compareBtn.enabled = false
     imageView.userInteractionEnabled = true
     let tapRecognizer = UILongPressGestureRecognizer(target: self, action:Selector("imageTapped:"))
     tapRecognizer.minimumPressDuration = 0.1;
     imageView.addGestureRecognizer(tapRecognizer)
-    
-    
+    let w = UIScreen.mainScreen().bounds.width
+    let h = UIScreen.mainScreen().bounds.height
+    label = UILabel(frame: CGRect(x: w/2, y: h/2, width:120, height:30))
+    label.text = "Original"
+    label.center=CGPoint(x:w/2, y:h/12)
+    label.textAlignment = .Center
+    label.backgroundColor = UIColor.blackColor()
+    label.textColor = UIColor.whiteColor()
+    self.view?.addSubview(label)
   }
 
   override func didReceiveMemoryWarning() {
@@ -42,12 +51,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
   @IBAction func imageTapped(sender: UILongPressGestureRecognizer) {
     if(isFiltered) {
       if(sender.state == .Began) {
-        imageView.image = originalImage
-        print("began tap")
+        showOriginalImage()
+        compareBtn.selected = true
+        //print("began tap")
       }
       else if(sender.state == .Ended){
-        imageView.image = filteredImage
-        print("end tap")
+        showFilteredImage()
+        compareBtn.selected = false
+        //print("end tap")
       }
     }
   }
@@ -84,8 +95,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
   func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
     dismissViewControllerAnimated(true, completion: nil)
     if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-      imageView.image = image
+      isFiltered = false
+      prevSelectedFilter?.selected=false
+      compareBtn.selected = false
+      compareBtn.enabled = false
       originalImage = image
+      filteredImage = image
+      showOriginalImage()
     }
   }
   
@@ -108,7 +124,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
       sender.selected = false
       isFiltered = false
       compareBtn.enabled = false
-      imageView.image = originalImage
+      showOriginalImage()
     }
     else {
       if(isFiltered) {
@@ -117,6 +133,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
       prevSelectedFilter = sender
       sender.selected = true
       isFiltered = true
+      compareBtn.selected = false
       compareBtn.enabled = true
       redFilter()
       
@@ -130,7 +147,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
       sender.selected = false
       isFiltered = false
       compareBtn.enabled = false
-      imageView.image = originalImage
+      showOriginalImage()
     }
     else {
       if(isFiltered) {
@@ -139,8 +156,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
       prevSelectedFilter = sender
       sender.selected = true
       isFiltered = true
+      compareBtn.selected = false
       compareBtn.enabled = true
-      redFilter()
+      brightnessFilter()
       
     }
   }
@@ -169,15 +187,25 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
   }
   
+  func showOriginalImage() {
+    UIView.transitionWithView(self.imageView, duration: 0.5, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: {self.imageView.image = self.originalImage}, completion: nil)
+    self.view?.addSubview(label)
+
+  }
+  
+  func showFilteredImage() {
+    UIView.transitionWithView(self.imageView, duration: 0.5, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: {self.imageView.image = self.filteredImage}, completion: nil)
+    self.label.removeFromSuperview()
+  }
   
   @IBAction func onCompare(sender: UIButton) {
     if(sender.selected) {
       sender.selected = false
-      imageView.image = filteredImage
+      showFilteredImage()
     }
     else {
       sender.selected = true
-      imageView.image = originalImage
+      showOriginalImage()
     }
   }
   
@@ -198,9 +226,25 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         rgbaImage.pixels[index] = pixel
       }
     }
-    
     filteredImage = rgbaImage.toUIImage()
-    imageView.image = filteredImage
+    showFilteredImage()
+  }
+  
+  func brightnessFilter() {
+    var rgbaImage = RGBAImage(image: originalImage!)!
+    let brightness = 1.8
+    for y in 0..<rgbaImage.height {
+      for x in 0..<rgbaImage.width {
+        let index = y * rgbaImage.width + x
+        var pixel = rgbaImage.pixels[index]
+        pixel.red = UInt8(max(0, min(255, brightness * Double(pixel.red))))
+        pixel.green = UInt8(max(0, min(255, brightness * Double(pixel.green))))
+        pixel.blue = UInt8(max(0, min(255, brightness * Double(pixel.blue))))
+        rgbaImage.pixels[index] = pixel
+      }
+    }
+    filteredImage = rgbaImage.toUIImage()
+    showFilteredImage()
   }
 }
 

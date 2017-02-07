@@ -147,37 +147,59 @@
                                     </mask>
                                 </variation>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Original" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dtc-df-UC4">
+                                <rect key="frame" x="199" y="40" width="203" height="67"/>
+                                <color key="backgroundColor" red="1" green="0.11669897882312386" blue="0.11732067787586631" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="203" id="6bl-1m-y38"/>
+                                    <constraint firstAttribute="height" constant="67" id="VEe-wC-ZcW"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="6bl-1m-y38"/>
+                                        <exclude reference="VEe-wC-ZcW"/>
+                                    </mask>
+                                </variation>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Dtc-df-UC4" secondAttribute="trailing" constant="198" id="3QB-21-LsU"/>
                             <constraint firstItem="wnS-1V-xmH" firstAttribute="top" secondItem="q5S-mg-tF0" secondAttribute="bottom" id="3wi-IE-mh7"/>
-                            <constraint firstItem="q5S-mg-tF0" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="4jm-d5-Leh"/>
                             <constraint firstItem="wnS-1V-xmH" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="5NC-It-5rR"/>
+                            <constraint firstItem="Dtc-df-UC4" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="179" id="5wv-w5-u9n"/>
+                            <constraint firstItem="q5S-mg-tF0" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="DdJ-dp-OcI"/>
+                            <constraint firstItem="wnS-1V-xmH" firstAttribute="top" secondItem="q5S-mg-tF0" secondAttribute="bottom" id="FIt-F9-NMu"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="wnS-1V-xmH" secondAttribute="bottom" id="IlE-9W-kOf"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="wnS-1V-xmH" secondAttribute="bottom" id="Is0-QV-x0s"/>
+                            <constraint firstItem="q5S-mg-tF0" firstAttribute="trailing" secondItem="wnS-1V-xmH" secondAttribute="trailing" id="JU7-Ah-Wnc"/>
+                            <constraint firstItem="q5S-mg-tF0" firstAttribute="leading" secondItem="wnS-1V-xmH" secondAttribute="leading" id="Jpg-7U-EpN"/>
+                            <constraint firstItem="Dtc-df-UC4" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="20" id="K0F-EV-DTA"/>
                             <constraint firstAttribute="trailing" secondItem="wnS-1V-xmH" secondAttribute="trailing" id="Kya-23-YVE"/>
+                            <constraint firstItem="Dtc-df-UC4" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="199" id="Mjg-l0-8Qk"/>
                             <constraint firstItem="wnS-1V-xmH" firstAttribute="top" secondItem="q5S-mg-tF0" secondAttribute="bottom" id="QVU-Uu-tg6"/>
                             <constraint firstAttribute="trailingMargin" secondItem="wnS-1V-xmH" secondAttribute="trailing" id="QfV-VE-GCC"/>
-                            <constraint firstItem="q5S-mg-tF0" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="UGe-Fb-UmF"/>
                             <constraint firstItem="wnS-1V-xmH" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="UMA-DG-Yd3"/>
                             <constraint firstAttribute="trailing" secondItem="wnS-1V-xmH" secondAttribute="trailing" id="Vxc-mc-Ayv"/>
                             <constraint firstItem="wnS-1V-xmH" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="536" id="YDC-cd-9ZT"/>
                             <constraint firstItem="wnS-1V-xmH" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="an3-YD-u9I"/>
                             <constraint firstItem="wnS-1V-xmH" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="bAi-gb-O73"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="wnS-1V-xmH" secondAttribute="bottom" id="d0u-Qu-CvI"/>
-                            <constraint firstAttribute="trailing" secondItem="q5S-mg-tF0" secondAttribute="trailing" id="drH-6l-NCf"/>
-                            <constraint firstItem="q5S-mg-tF0" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="e0e-AR-bwR"/>
-                            <constraint firstItem="q5S-mg-tF0" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="mYa-Jo-dSa"/>
-                            <constraint firstItem="wnS-1V-xmH" firstAttribute="top" secondItem="q5S-mg-tF0" secondAttribute="bottom" id="nSN-p6-5XV"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="wnS-1V-xmH" secondAttribute="bottom" id="naN-fe-u2a"/>
-                            <constraint firstAttribute="trailing" secondItem="q5S-mg-tF0" secondAttribute="trailing" id="ngs-0k-w4u"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Dtc-df-UC4" secondAttribute="trailing" constant="178" id="oSB-ev-ORr"/>
                             <constraint firstAttribute="trailing" secondItem="wnS-1V-xmH" secondAttribute="trailing" id="qi5-b4-Ai0"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="wnS-1V-xmH" secondAttribute="bottom" id="rGJ-iA-hwv"/>
-                            <constraint firstItem="wnS-1V-xmH" firstAttribute="top" secondItem="q5S-mg-tF0" secondAttribute="bottom" id="rXa-6u-kqx"/>
                             <constraint firstItem="wnS-1V-xmH" firstAttribute="top" secondItem="q5S-mg-tF0" secondAttribute="bottom" id="xTj-uV-Rie"/>
+                            <constraint firstItem="Dtc-df-UC4" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="20" id="ynq-rh-jb8"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="5wv-w5-u9n"/>
+                                <exclude reference="oSB-ev-ORr"/>
+                                <exclude reference="ynq-rh-jb8"/>
                                 <exclude reference="3wi-IE-mh7"/>
                                 <exclude reference="QVU-Uu-tg6"/>
                                 <exclude reference="QfV-VE-GCC"/>
@@ -247,7 +269,7 @@
                     </constraints>
                 </view>
             </objects>
-            <point key="canvasLocation" x="210" y="338"/>
+            <point key="canvasLocation" x="186" y="306"/>
         </scene>
         <!--Table View Controller-->
         <scene sceneID="ngX-Sz-KLi">
