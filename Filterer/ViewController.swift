@@ -26,12 +26,30 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
   override func viewDidLoad() {
     super.viewDidLoad()
     originalImage = imageView.image
+    imageView.userInteractionEnabled = true
+    let tapRecognizer = UILongPressGestureRecognizer(target: self, action:Selector("imageTapped:"))
+    tapRecognizer.minimumPressDuration = 0.1;
+    imageView.addGestureRecognizer(tapRecognizer)
+    
     
   }
 
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
     // Dispose of any resources that can be recreated.
+  }
+  
+  @IBAction func imageTapped(sender: UILongPressGestureRecognizer) {
+    if(isFiltered) {
+      if(sender.state == .Began) {
+        imageView.image = originalImage
+        print("began tap")
+      }
+      else if(sender.state == .Ended){
+        imageView.image = filteredImage
+        print("end tap")
+      }
+    }
   }
   @IBAction func onShare(sender: AnyObject) {
     let activityController = UIActivityViewController(activityItems: [imageView.image!], applicationActivities: nil)
