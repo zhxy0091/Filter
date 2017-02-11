@@ -20,6 +20,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
   var avgGreen:Int?
   var avgBlue:Int?
   var filterIntensity:Double = 4.0
+  var filteredImageDict:[String:UIImage] = [:]
+  var filters = ["red", "green", "blue", "yellow", "purple"]
   @IBOutlet var imageView: UIImageView!
   
   @IBOutlet var secondaryMenu: UIView!
@@ -28,13 +30,17 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
  
   @IBOutlet weak var compareBtn: UIButton!
   
+  @IBOutlet var filterPurpleButton: UIButton!
+  @IBOutlet var filterYellowButton: UIButton!
+  @IBOutlet var filterBlueButton: UIButton!
+  @IBOutlet var filterGreenButton: UIButton!
+  @IBOutlet var filterRedButton: UIButton!
   @IBOutlet var filterButton: UIButton!
   override func viewDidLoad() {
     super.viewDidLoad()
     originalImage = imageView.image
     compareBtn.enabled = false
     preCalculation()
-    
     //tap to compare
     imageView.userInteractionEnabled = true
     let tapRecognizer = UILongPressGestureRecognizer(target: self, action:Selector("imageTapped:"))
@@ -77,6 +83,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     presentViewController(activityController, animated: true, completion: nil)
   }
   @IBAction func onNewPhoto(sender: AnyObject) {
+    if filterButton.selected == true {
+      onFilter(filterButton)
+    }
     let actionSheet = UIAlertController(title: "New Photo", message: nil, preferredStyle: .ActionSheet)
     
     actionSheet.addAction(UIAlertAction(title: "Camera", style: .Default, handler: {action in self.showCamera()
@@ -111,8 +120,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
       compareBtn.enabled = false
       originalImage = image
       filteredImage = image
-      preCalculation()
       showOriginalImage()
+      preCalculation()
     }
   }
   
@@ -168,11 +177,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
       isFiltered = true
       compareBtn.selected = false
       compareBtn.enabled = true
-      applyFilter(filterName)
+      filteredImage = applyFilter(filterName)
+      showFilteredImage()
     }
   }
   
   func showSecondaryMenu() {
+    displayFilterImageAsFilterSubButton()
     view.addSubview(secondaryMenu)
     secondaryMenu.translatesAutoresizingMaskIntoConstraints = false
     let bottomContraint = secondaryMenu.bottomAnchor.constraintEqualToAnchor(bottomMenu.topAnchor)
@@ -185,6 +196,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     UIView.animateWithDuration(1) {
       self.secondaryMenu.alpha = 0.6
     }
+    
   }
   
   func hideSecondaryMenu() {
@@ -249,10 +261,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     avgGreen = totalGreen / totalPixel
     avgBlue = totalBlue / totalPixel
     
+    for filter in filters {
+      filteredImageDict[filter]=applyFilter(filter)
+    }
   }
 
   
-  func applyFilter(filter:String) {
+  func applyFilter(filter:String)->UIImage {
     
     var rgbaImage = RGBAImage(image: originalImage!)!
     
@@ -338,24 +353,32 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
       }
     }
     filteredImage = rgbaImage.toUIImage()
-    showFilteredImage()
+    return filteredImage!
   }
 
-  func brightnessFilter() {
-    var rgbaImage = RGBAImage(image: originalImage!)!
-    let brightness = 1.8
-    for y in 0..<rgbaImage.height {
-      for x in 0..<rgbaImage.width {
-        let index = y * rgbaImage.width + x
-        var pixel = rgbaImage.pixels[index]
-        pixel.red = UInt8(max(0, min(255, brightness * Double(pixel.red))))
-        pixel.green = UInt8(max(0, min(255, brightness * Double(pixel.green))))
-        pixel.blue = UInt8(max(0, min(255, brightness * Double(pixel.blue))))
-        rgbaImage.pixels[index] = pixel
-      }
-    }
-    filteredImage = rgbaImage.toUIImage()
-    showFilteredImage()
+  func displayFilterImageAsFilterSubButton() {
+    
+    filterRedButton.setTitleColor(UIColor.clearColor(), forState: .Normal)
+    
+    filterGreenButton.setTitleColor(UIColor.clearColor(), forState: .Normal)
+    
+    filterBlueButton.setTitleColor(UIColor.clearColor(), forState: .Normal)
+    
+    filterYellowButton.setTitleColor(UIColor.clearColor(), forState: .Normal)
+    
+    filterPurpleButton.setTitleColor(UIColor.clearColor(), forState: .Normal)
+    
+    filterRedButton.setBackgroundImage(filteredImageDict["red"], forState: .Normal)
+    
+    filterGreenButton.setBackgroundImage(filteredImageDict["green"], forState: .Normal)
+    
+    filterBlueButton.setBackgroundImage(filteredImageDict["blue"], forState: .Normal)
+    
+    filterYellowButton.setBackgroundImage(filteredImageDict["yellow"], forState: .Normal)
+    
+    filterPurpleButton.setBackgroundImage(filteredImageDict["purple"], forState: .Normal)
+    
   }
+
 }
 

@@ -219,6 +219,12 @@
                     <connections>
                         <outlet property="bottomMenu" destination="wnS-1V-xmH" id="M6d-Oj-ufB"/>
                         <outlet property="compareBtn" destination="R1O-DX-BxG" id="mLt-4c-kUG"/>
+                        <outlet property="filterBlueButton" destination="C6y-RN-ylH" id="CQU-qt-XA0"/>
+                        <outlet property="filterButton" destination="r16-8i-BGk" id="DR9-qK-ChN"/>
+                        <outlet property="filterGreenButton" destination="knL-3U-iKL" id="R9C-n0-gGz"/>
+                        <outlet property="filterPurpleButton" destination="FpM-5p-lrT" id="0N3-GP-F2k"/>
+                        <outlet property="filterRedButton" destination="hCo-yB-Rh7" id="oSz-2V-qwS"/>
+                        <outlet property="filterYellowButton" destination="GGZ-3S-CIc" id="kpm-me-POC"/>
                         <outlet property="imageView" destination="q5S-mg-tF0" id="OvH-FZ-Hn6"/>
                         <outlet property="secondaryMenu" destination="Q15-qE-GPB" id="STf-bl-NlM"/>
                     </connections>
