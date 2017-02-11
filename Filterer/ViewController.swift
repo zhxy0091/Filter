@@ -132,29 +132,27 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
   }
   
   @IBAction func onRedFilter(sender: UIButton) {
-    if(sender.selected) {
-      sender.selected = false
-      isFiltered = false
-      compareBtn.enabled = false
-      showOriginalImage()
-    }
-    else {
-      if(isFiltered) {
-        prevSelectedFilter!.selected = false;
-      }
-      prevSelectedFilter = sender
-      sender.selected = true
-      isFiltered = true
-      compareBtn.selected = false
-      compareBtn.enabled = true
-      applyFilter("red")
-      
-    }
-    
-    
+    filterBtnAction(sender, filterName: "red")
+
   }
   
   @IBAction func onGreenFilter(sender: UIButton) {
+    filterBtnAction(sender, filterName: "green")
+
+  }
+  
+  @IBAction func onBlueFilter(sender: UIButton) {
+    filterBtnAction(sender, filterName: "blue")
+  }
+  @IBAction func onYellowFilter(sender: UIButton) {
+    filterBtnAction(sender, filterName: "yellow")
+  }
+  
+  @IBAction func onPurpleFilter(sender: UIButton) {
+    filterBtnAction(sender, filterName: "purple")
+  }
+  
+  func filterBtnAction(sender:UIButton, filterName:String) {
     if(sender.selected) {
       sender.selected = false
       isFiltered = false
@@ -170,8 +168,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
       isFiltered = true
       compareBtn.selected = false
       compareBtn.enabled = true
-      applyFilter("green")
-      
+      applyFilter(filterName)
     }
   }
   
@@ -284,7 +281,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             pixel.green = UInt8(max(min(255, Int(round(Double(avgGreen!) + modifier * Double(greenDelta)))), 0))
             rgbaImage.pixels[index] = pixel
           
-          case "Blue":
+          case "blue":
             let blueDelta = Int(pixel.blue) - avgBlue!
             
             if (Int(pixel.blue) < avgBlue) {
@@ -294,7 +291,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             pixel.blue = UInt8(max(min(255, Int(round(Double(avgBlue!) + modifier * Double(blueDelta)))), 0))
             rgbaImage.pixels[index] = pixel
             
-          case "Yellow":
+          case "yellow":
             let redDelta = Int(pixel.red) - avgRed!
             let greenDelta = Int(pixel.green) - avgGreen!
             
@@ -313,7 +310,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             
             rgbaImage.pixels[index] = pixel
             
-          case "Purple":
+          case "purple":
             let redDelta = Int(pixel.red) - avgRed!
             let blueDelta = Int(pixel.blue) - avgBlue!
             
