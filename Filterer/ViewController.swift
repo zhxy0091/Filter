@@ -27,6 +27,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
   
   @IBOutlet var secondaryMenu: UIView!
 
+  @IBOutlet var originalLabelMenu: UIView!
   @IBOutlet var bottomMenu: UIView!
  
   @IBOutlet var intensitySlider: UISlider!
@@ -66,7 +67,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     label.textAlignment = .Center
     label.backgroundColor = UIColor.blackColor()
     label.textColor = UIColor.whiteColor()
-    self.view?.addSubview(label)
+    //self.view?.addSubview(label)
+    
   }
 
   override func didReceiveMemoryWarning() {
@@ -77,14 +79,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
   @IBAction func imageTapped(sender: UILongPressGestureRecognizer) {
     if(isFiltered) {
       if(sender.state == .Began) {
-        showOriginalImage()
-        compareBtn.selected = true
-        //print("began tap")
+        onCompare(compareBtn)
       }
       else if(sender.state == .Ended){
-        showFilteredImage()
-        compareBtn.selected = false
-        //print("end tap")
+        onCompare(compareBtn)
       }
     }
   }
@@ -256,26 +254,51 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
   }
   
+  func showOriginalLabelMenu() {
+    
+    view.addSubview(originalLabelMenu)
+    self.originalLabelMenu.alpha = 0.45
+    
+    originalLabelMenu.translatesAutoresizingMaskIntoConstraints = false
+    
+    let heightConstraint = originalLabelMenu.heightAnchor.constraintEqualToConstant(44)
+    //let verticalConstraint = originalLabelMenu.centerYAnchor.constraintEqualToAnchor(view.centerYAnchor)
+    let horizontalConstraint = originalLabelMenu.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor)
+    let topContraint = originalLabelMenu.topAnchor.constraintEqualToAnchor(view.topAnchor, constant: 44)
+    
+    NSLayoutConstraint.activateConstraints([horizontalConstraint, heightConstraint, topContraint])
+    imageView.layoutIfNeeded()
+    
+  }
+  
+  func hideOriginalLabelMenu() {
+    self.originalLabelMenu.removeFromSuperview()
+  }
+
+  
   func showOriginalImage() {
     UIView.transitionWithView(self.imageView, duration: 0.5, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: {self.imageView.image = self.originalImage}, completion: nil)
-    self.view?.addSubview(label)
-    
+    //self.view?.addSubview(label)
+    //showOriginalLabelMenu()
   }
   
   func showFilteredImage() {
     UIView.transitionWithView(self.imageView, duration: 0.5, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: {self.imageView.image = self.filteredImage}, completion: nil)
-    self.label.removeFromSuperview()
-    
+    //self.label.removeFromSuperview()
+    //hideOriginalLabelMenu()
   }
   
   @IBAction func onCompare(sender: UIButton) {
     if(sender.selected) {
       sender.selected = false
+      
       showFilteredImage()
+      hideOriginalLabelMenu()
     }
     else {
       sender.selected = true
       showOriginalImage()
+      showOriginalLabelMenu()
     }
   }
   

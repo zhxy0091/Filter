@@ -260,10 +260,36 @@
                         <outlet property="filterYellowButton" destination="GGZ-3S-CIc" id="kpm-me-POC"/>
                         <outlet property="imageView" destination="q5S-mg-tF0" id="OvH-FZ-Hn6"/>
                         <outlet property="intensitySlider" destination="1Qr-3U-jqN" id="wfh-ug-8cc"/>
+                        <outlet property="originalLabelMenu" destination="Bvj-pQ-wNV" id="xFr-Hc-Tq5"/>
                         <outlet property="secondaryMenu" destination="Q15-qE-GPB" id="STf-bl-NlM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="Bvj-pQ-wNV">
+                    <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Original" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nav-sm-56Q">
+                            <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="48"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="nav-sm-56Q" firstAttribute="top" secondItem="Bvj-pQ-wNV" secondAttribute="top" id="2Fi-CU-itg"/>
+                        <constraint firstAttribute="trailing" secondItem="nav-sm-56Q" secondAttribute="trailing" id="CRQ-Oa-E0v"/>
+                        <constraint firstAttribute="bottom" secondItem="nav-sm-56Q" secondAttribute="bottom" id="QoX-So-tkQ"/>
+                        <constraint firstAttribute="bottom" secondItem="nav-sm-56Q" secondAttribute="bottom" id="X2m-5b-XZy"/>
+                        <constraint firstItem="nav-sm-56Q" firstAttribute="leading" secondItem="Bvj-pQ-wNV" secondAttribute="leading" id="pjA-hj-GuH"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="X2m-5b-XZy"/>
+                        </mask>
+                    </variation>
+                </view>
                 <view contentMode="scaleToFill" id="Q15-qE-GPB">
                     <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
