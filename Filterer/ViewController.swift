@@ -157,7 +157,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
   @IBAction func onGreenFilter(sender: UIButton) {
     if(sender.selected) {
       sender.selected = false
-      
+      isFiltered = false
+      compareBtn.enabled = false
       showOriginalImage()
     }
     else {
@@ -166,8 +167,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
       }
       prevSelectedFilter = sender
       sender.selected = true
-      
-      applyFilter("Green")
+      isFiltered = true
+      compareBtn.selected = false
+      compareBtn.enabled = true
+      applyFilter("green")
       
     }
   }
@@ -200,16 +203,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
   func showOriginalImage() {
     UIView.transitionWithView(self.imageView, duration: 0.5, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: {self.imageView.image = self.originalImage}, completion: nil)
     self.view?.addSubview(label)
-    isFiltered = false
-    compareBtn.enabled = false
+    
   }
   
   func showFilteredImage() {
     UIView.transitionWithView(self.imageView, duration: 0.5, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: {self.imageView.image = self.filteredImage}, completion: nil)
     self.label.removeFromSuperview()
-    isFiltered = true
-    compareBtn.selected = false
-    compareBtn.enabled = true
+    
   }
   
   @IBAction func onCompare(sender: UIButton) {
