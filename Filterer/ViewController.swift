@@ -15,6 +15,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
   var prevSelectedFilter:UIButton?
   var isFiltered:Bool = false
   var label = UILabel()
+  
+  var avgRed:Int?
+  var avgGreen:Int?
+  var avgBlue:Int?
+  var filterIntensity:Double = 4.0
   @IBOutlet var imageView: UIImageView!
   
   @IBOutlet var secondaryMenu: UIView!
@@ -28,10 +33,15 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     super.viewDidLoad()
     originalImage = imageView.image
     compareBtn.enabled = false
+    preCalculation()
+    
+    //tap to compare
     imageView.userInteractionEnabled = true
     let tapRecognizer = UILongPressGestureRecognizer(target: self, action:Selector("imageTapped:"))
     tapRecognizer.minimumPressDuration = 0.1;
     imageView.addGestureRecognizer(tapRecognizer)
+    
+    //origin label set up
     let w = UIScreen.mainScreen().bounds.width
     let h = UIScreen.mainScreen().bounds.height
     label = UILabel(frame: CGRect(x: w/2, y: h/2, width:120, height:30))
@@ -101,9 +111,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
       compareBtn.enabled = false
       originalImage = image
       filteredImage = image
+      preCalculation()
       showOriginalImage()
     }
   }
+  
   
   func imagePickerControllerDidCancel(picker: UIImagePickerController) {
     dismissViewControllerAnimated(true, completion: nil)
@@ -135,7 +147,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
       isFiltered = true
       compareBtn.selected = false
       compareBtn.enabled = true
-      redFilter()
+      applyFilter("red")
       
     }
     
@@ -145,8 +157,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
   @IBAction func onGreenFilter(sender: UIButton) {
     if(sender.selected) {
       sender.selected = false
-      isFiltered = false
-      compareBtn.enabled = false
+      
       showOriginalImage()
     }
     else {
@@ -155,13 +166,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
       }
       prevSelectedFilter = sender
       sender.selected = true
-      isFiltered = true
-      compareBtn.selected = false
-      compareBtn.enabled = true
-      brightnessFilter()
+      
+      applyFilter("Green")
       
     }
   }
+  
   func showSecondaryMenu() {
     view.addSubview(secondaryMenu)
     secondaryMenu.translatesAutoresizingMaskIntoConstraints = false
@@ -190,12 +200,16 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
   func showOriginalImage() {
     UIView.transitionWithView(self.imageView, duration: 0.5, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: {self.imageView.image = self.originalImage}, completion: nil)
     self.view?.addSubview(label)
-
+    isFiltered = false
+    compareBtn.enabled = false
   }
   
   func showFilteredImage() {
     UIView.transitionWithView(self.imageView, duration: 0.5, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: {self.imageView.image = self.filteredImage}, completion: nil)
     self.label.removeFromSuperview()
+    isFiltered = true
+    compareBtn.selected = false
+    compareBtn.enabled = true
   }
   
   @IBAction func onCompare(sender: UIButton) {
@@ -209,27 +223,127 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
   }
   
-  func redFilter() {
+  func preCalculation() {
+    
+    let image = originalImage
+    let rgbaImage = RGBAImage(image: image!)!
+    
+    var totalRed = 0
+    var totalGreen = 0
+    var totalBlue = 0
+    
+    let totalPixel = rgbaImage.height * rgbaImage.width
+    
+    for y in 0..<rgbaImage.height {
+      for x in 0..<rgbaImage.width {
+        let index = y * rgbaImage.width + x
+        
+        var pixel = rgbaImage.pixels[index]
+        
+        totalRed += Int(pixel.red)
+        totalGreen += Int(pixel.green)
+        totalBlue += Int(pixel.blue)
+        
+      }
+      
+    }
+    
+    avgRed = totalRed / totalPixel
+    avgGreen = totalGreen / totalPixel
+    avgBlue = totalBlue / totalPixel
+    
+  }
+
+  
+  func applyFilter(filter:String) {
     
     var rgbaImage = RGBAImage(image: originalImage!)!
-    let avgRed = 107
+    
     for y in 0..<rgbaImage.height {
       for x in 0..<rgbaImage.width {
         let index = y*rgbaImage.width + x
         var pixel = rgbaImage.pixels[index]
-        let redDelta = Int(pixel.red) - avgRed
-        var modifier = 1 + 4*(Double(y)/Double(rgbaImage.height))
-        if(Int(pixel.red) < avgRed) {
-          modifier = 1
+        
+        var modifier = 1 + filterIntensity*(Double(y)/Double(rgbaImage.height))
+        
+        switch filter {
+          case "red":
+            let redDelta = Int(pixel.red) - avgRed!
+            if(Int(pixel.red) < avgRed) {
+              modifier = 1
+            }
+            pixel.red = UInt8(max(min(255,Int(round(Double(avgRed!) + modifier * Double(redDelta)))), 0))
+            rgbaImage.pixels[index] = pixel
+          case "green":
+            let greenDelta = Int(pixel.green) - avgGreen!
+            
+            if (Int(pixel.green) < avgGreen) {
+              modifier = 1
+            }
+            
+            pixel.green = UInt8(max(min(255, Int(round(Double(avgGreen!) + modifier * Double(greenDelta)))), 0))
+            rgbaImage.pixels[index] = pixel
+          
+          case "Blue":
+            let blueDelta = Int(pixel.blue) - avgBlue!
+            
+            if (Int(pixel.blue) < avgBlue) {
+              modifier = 1
+            }
+            
+            pixel.blue = UInt8(max(min(255, Int(round(Double(avgBlue!) + modifier * Double(blueDelta)))), 0))
+            rgbaImage.pixels[index] = pixel
+            
+          case "Yellow":
+            let redDelta = Int(pixel.red) - avgRed!
+            let greenDelta = Int(pixel.green) - avgGreen!
+            
+            var redModifier = 1 + filterIntensity * (Double(y) / Double(rgbaImage.height))
+            var greenModifier = 1 + filterIntensity * (Double(y) / Double(rgbaImage.height))
+            
+            if (Int(pixel.red) < avgRed) {
+              redModifier = 1
+            }
+            if (Int(pixel.green) < avgGreen) {
+              greenModifier = 1
+            }
+            
+            pixel.red = UInt8(max(min(255, Int(round(Double(avgRed!) + redModifier * Double(redDelta)))), 0))
+            pixel.green = UInt8(max(min(255, Int(round(Double(avgGreen!) + greenModifier * Double(greenDelta)))), 0))
+            
+            rgbaImage.pixels[index] = pixel
+            
+          case "Purple":
+            let redDelta = Int(pixel.red) - avgRed!
+            let blueDelta = Int(pixel.blue) - avgBlue!
+            
+            var redModifier = 1 + filterIntensity * (Double(y) / Double(rgbaImage.height))
+            var blueModifier = 1 + filterIntensity * (Double(y) / Double(rgbaImage.height))
+            
+            if (Int(pixel.red) < avgRed) {
+              redModifier = 1
+            }
+            if (Int(pixel.blue) < avgBlue) {
+              blueModifier = 1
+            }
+            
+            pixel.red = UInt8(max(min(255, Int(round(Double(avgRed!) + redModifier * Double(redDelta)))), 0))
+            pixel.blue = UInt8(max(min(255, Int(round(Double(avgBlue!) + blueModifier * Double(blueDelta)))), 0))
+            
+            rgbaImage.pixels[index] = pixel
+            
+          default:
+            print("color unrecogized")
+            break
         }
-        pixel.red = UInt8(max(min(255,Int(round(Double(avgRed) + modifier * Double(redDelta)))), 0))
-        rgbaImage.pixels[index] = pixel
+        
+        
       }
     }
     filteredImage = rgbaImage.toUIImage()
     showFilteredImage()
   }
-  
+
   func brightnessFilter() {
     var rgbaImage = RGBAImage(image: originalImage!)!
     let brightness = 1.8
