@@ -13,13 +13,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
   var filteredImage:UIImage?
   var originalImage:UIImage?
   var prevSelectedFilter:UIButton?
+  var selectedFilterName:String?
   var isFiltered:Bool = false
   var label = UILabel()
   
   var avgRed:Int?
   var avgGreen:Int?
   var avgBlue:Int?
-  var filterIntensity:Double = 4.0
+  var filterIntensity:Double = 5.0
   var filteredImageDict:[String:UIImage] = [:]
   var filters = ["red", "green", "blue", "yellow", "purple"]
   @IBOutlet var imageView: UIImageView!
@@ -28,7 +29,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 
   @IBOutlet var bottomMenu: UIView!
  
+  @IBOutlet var intensitySlider: UISlider!
   @IBOutlet weak var compareBtn: UIButton!
+  @IBOutlet var editBtn: UIButton!
   
   @IBOutlet var filterPurpleButton: UIButton!
   @IBOutlet var filterYellowButton: UIButton!
@@ -38,9 +41,16 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
   @IBOutlet var filterButton: UIButton!
   override func viewDidLoad() {
     super.viewDidLoad()
+    //load image and reset button
     originalImage = imageView.image
     compareBtn.enabled = false
+    editBtn.enabled = false
     preCalculation()
+    
+    //hide slider
+    intensitySlider.enabled = false
+    intensitySlider.alpha = 0
+    
     //tap to compare
     imageView.userInteractionEnabled = true
     let tapRecognizer = UILongPressGestureRecognizer(target: self, action:Selector("imageTapped:"))
@@ -118,6 +128,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
       prevSelectedFilter?.selected=false
       compareBtn.selected = false
       compareBtn.enabled = false
+      editBtn.selected = false
+      editBtn.enabled = false
+      intensitySlider.alpha = 0
+      intensitySlider.enabled = false
       originalImage = image
       filteredImage = image
       showOriginalImage()
@@ -132,14 +146,44 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
   @IBAction func onFilter(sender: UIButton) {
     if(sender.selected) {
       hideSecondaryMenu()
+      
       sender.selected = false
     }
     else {
+      intensitySlider.alpha = 0
+      intensitySlider.enabled = false
+      editBtn.selected = false
       showSecondaryMenu()
       sender.selected = true
     }
   }
   
+  @IBAction func onEdit(sender: UIButton) {
+    if (filterButton.selected) {
+      onFilter(filterButton)
+    }
+    if (editBtn.selected) {
+      intensitySlider.enabled = false
+      intensitySlider.alpha = 0
+      editBtn.selected = false
+    }
+    else {
+      intensitySlider.enabled = true
+      intensitySlider.alpha = 1
+      editBtn.selected = true
+    }
+    
+  }
+  @IBAction func onSlider(sender: UISlider) {
+    if (compareBtn.selected) {
+      onCompare(compareBtn)
+    }
+    
+    filterIntensity = Double(sender.value*10)
+    applyFilter(selectedFilterName!)
+    imageView.image = filteredImage
+    
+  }
   @IBAction func onRedFilter(sender: UIButton) {
     filterBtnAction(sender, filterName: "red")
 
@@ -166,17 +210,20 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
       sender.selected = false
       isFiltered = false
       compareBtn.enabled = false
+      editBtn.enabled = false
       showOriginalImage()
     }
     else {
       if(isFiltered) {
         prevSelectedFilter!.selected = false;
       }
+      selectedFilterName = filterName
       prevSelectedFilter = sender
       sender.selected = true
       isFiltered = true
       compareBtn.selected = false
       compareBtn.enabled = true
+      editBtn.enabled = true
       filteredImage = applyFilter(filterName)
       showFilteredImage()
     }
@@ -353,6 +400,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
       }
     }
     filteredImage = rgbaImage.toUIImage()
+    
     return filteredImage!
   }
 
